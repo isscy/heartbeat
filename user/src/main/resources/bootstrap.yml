@@ -1,0 +1,31 @@
+server:
+    port: 9111
+spring:
+    application:
+        name: user
+    profiles:
+        active: dev
+    cloud:
+        config:
+            name: ${spring.application.name}, db, admin
+            fail-fast: true
+            discovery:
+                service-id: config
+                enabled: true
+            profile: ${spring.profiles.active}
+            label: master
+
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+
+
+mybatis-plus:
+    typeAliasesPackage: cn.ff.common.entity,cn.ff.user.entity
+    mapperLocations: classpath*:mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+

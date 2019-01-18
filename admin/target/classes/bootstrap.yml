@@ -1,0 +1,39 @@
+server:
+    port: 9009
+spring:
+    application:
+        name: admin
+    profiles:
+        active: dev
+    cloud:
+        config:
+            name: ${spring.application.name}
+            fail-fast: true
+            discovery:
+                service-id: config
+                enabled: true
+            profile: ${spring.profiles.active}
+            label: master
+    security:
+        user:
+            name: 'ff'
+            password: 'ls666'
+
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        health-check-url-path: /actuator/health
+        metadata-map:
+            user.name: ${spring.security.user.name}
+            user.password: ${spring.security.user.password}
+
+
+
+
+
+
+

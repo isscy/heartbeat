@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ff.common.mapper.SysUserMapper">
+
+    <select id="getByUserName" resultType="cn.ff.common.entity.SysUser">
+		select * from sys_user where user_name = #{userName} and del_flag = '0' LIMIT 1
+    </select>
+
+	<insert id="insertOneNoRepeatUserName" parameterType="cn.ff.common.entity.SysUser">
+		insert into sys_user (id, user_name, password, nick_name, phone, create_time, type, status, del_flag)
+		select
+			 	#{id},
+			 	#{userName},
+			 	#{password},
+			 	#{nickName},
+			 	#{phone},
+			 	NOW(),
+			 	#{type},
+			 	#{status},
+			 	#{delFlag}
+		where not EXISTS (SELECT id from `sys_user` where `user_name` = #{userName})
+	</insert>
+
+</mapper>

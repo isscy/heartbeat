@@ -1,0 +1,43 @@
+server:
+    port: 9005
+spring:
+    application:
+        name: auth
+    profiles:
+        active: dev
+    cloud:
+        config:
+            name: ${spring.application.name}, db
+            fail-fast: true
+            discovery:
+                service-id: config
+                enabled: true
+            profile: ${spring.profiles.active}
+            label: master
+    
+
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+    instance:
+        leaseRenewalIntervalInSeconds: 10
+        health-check-url-path: /actuator/health
+    
+    
+    
+    
+    
+    
+    
+    
+logging:
+    level:
+        org.springframework.security: DEBUG
+        
+oauth2:
+    token:
+        secret: Jdk_18.com
+        expired: 3600
+        refresh-expired: 7200000

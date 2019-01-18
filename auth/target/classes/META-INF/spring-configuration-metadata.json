@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "cn.ff.auth.constant.Oauth2Property",
+      "name": "oauth2",
+      "type": "cn.ff.auth.constant.Oauth2Property"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "cn.ff.auth.constant.Oauth2Property",
+      "name": "oauth2.token",
+      "type": "cn.ff.auth.constant.TokenProperty"
+    }
+  ]
+}

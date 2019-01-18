@@ -1,0 +1,42 @@
+server:
+    port: 9002
+spring:
+    application:
+        name: config
+    profiles:
+        active: dev
+    cloud:
+        config:
+            server:
+                git:
+#                    uri: https://github.com/isscy/cloud_config
+                    uri: http://47.105.108.6/fengfan/cloud_config.git
+                    search-paths: heartbeat
+                    default-label: master
+                    username: fengfan
+                    password: ff123456
+        bus:
+            trace:
+                enabled: true
+    rabbitmq:
+        host: 139.196.122.34
+        port: 5672
+        username: guest
+        password: '{cipher}1ea4027aadb73719c7fe1d988c2b67c508e1a2c86e234666bd7437dead5737d3'
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: ALWAYS
+
+
+encrypt:
+    key: ff@Auto.3g
