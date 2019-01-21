@@ -43,7 +43,7 @@ public class JwtAccessToken extends JwtAccessTokenConverter {
      */
     @Override
     public OAuth2AccessToken extractAccessToken(String value, Map<String, ?> map) {
-        OAuth2AccessToken oauth2AccessToken = super.extractAccessToken(value, map);
+        OAuth2AccessToken oauth2AccessToken = super.extractAccessToken(value, map); // DefaultTokenServices.loadAuthentication 调用这一行
         convertData(oauth2AccessToken, oauth2AccessToken.getAdditionalInformation());
         return oauth2AccessToken;
     }

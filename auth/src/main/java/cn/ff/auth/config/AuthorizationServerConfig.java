@@ -2,6 +2,7 @@ package cn.ff.auth.config;
 
 import cn.ff.auth.constant.Oauth2Property;
 import cn.ff.auth.helper.JwtAccessToken;
+import cn.ff.auth.service.DefaultClientDetailsService;
 import cn.ff.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -27,6 +29,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +51,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private Oauth2Property oauth2Property;
 
+    @Resource
+    private DataSource dataSource;
+
     /**
      * 客户端详情信息
      */
@@ -54,7 +61,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // TODO 换成从数据库来读取
         // TODO 设置 token 和 refresh token 的超时时间
-        clients.inMemory()
+        /*clients.inMemory()
                 .withClient("android")
                 .scopes("xx") //此处的scopes是无用的，可以随意设置
                 .secret("android")
@@ -62,7 +69,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .and()
                 .withClient("webapp")
                 .scopes("xx")
-                .authorizedGrantTypes("implicit");
+                .authorizedGrantTypes("implicit");*/
+        clients.withClientDetails( new DefaultClientDetailsService());
     }
 
     @Override
@@ -92,7 +100,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     JwtAccessTokenConverter jwtAccessToken() {
-        return new JwtAccessToken();
+        JwtAccessTokenConverter tokenConverter = new JwtAccessToken();
+        tokenConverter.setSigningKey(oauth2Property.getToken().getSecret());
+        return tokenConverter;
     }
 
     @Bean

@@ -19,6 +19,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,8 +41,13 @@ public class DefaultLoginAuthSuccessHandler extends SavedRequestAwareAuthenticat
     private ObjectMapper objectMapper;
     @Autowired
     private ClientDetailsService clientDetailsService;
-    @Autowired
+
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    public void setAuthorizationServerTokenServices(AuthorizationServerTokenServices defaultAuthorizationServerTokenServices){
+        this.authorizationServerTokenServices = defaultAuthorizationServerTokenServices;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

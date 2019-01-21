@@ -40,6 +40,10 @@ public class UserController {
     public String createUser() {
         return "u are sb ";
     }
+    @GetMapping("aaa")
+    public String getAdmin() {
+        return "u are admin ";
+    }
 
     @GetMapping("/token")
     public Map<String, Object> token(OAuth2Authentication auth){
